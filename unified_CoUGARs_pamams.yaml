@@ -1,0 +1,164 @@
+
+
+
+# Created by Clayton Smith, Feb 2025
+#
+# ROS PARAMETER VALUES FOR ALL VEHICLES AND BASE STATION
+#
+#
+
+
+
+
+#############################################################
+#                 Universal Parameters                      #
+#############################################################
+
+/**:
+  ros__parameters:
+
+    mission_start_time: 1739302061
+
+    water_salinity_ppt: 0.0 # 0.0 for fresh water, 35.0 for salt water
+    # https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml?
+    magnetic_declination: 10.7 # E is positive, W is negative, 10.70° E for Utah Lake
+
+
+#############################################################
+#               Base Station Ros Parameters                 #
+#############################################################
+
+
+/base_station_coms:
+  ros__parameters:
+    # The vehicle ids of the CougUVs running the current mission.
+    vehicles_in_mission: [2, 3, 4]
+
+    # If true, the base station will request a status update form each vehicle during a mission
+    request_status: True
+
+    # During a mission, the base station requests a status update from each vehicle one at
+    # a time on a schedule.  The request frequency is the number of seconds between the
+    # status request of two vehicles.
+    status_request_frequency_seconds: 4
+
+/modem:
+  ros__parameters:
+    base_station_modem_id: 2
+    logging_verbosity: 1
+
+
+#############################################################
+#                 Coug 1 Ros Parameters                     #
+#############################################################
+
+
+
+#############################################################
+#                 Coug 2 Ros Parameters                     #
+#############################################################
+
+coug2:
+
+  /**:
+    ros__parameters:
+      demo_mode: false
+
+  battery_sub:
+    ros__parameters:
+      critical_voltage: 14.0 # shutdown voltage in volts (safety check)
+
+  coug_controls:
+    ros__parameters:
+      pid_timer_period: 80 # in ms, 80 from experimentation with the depth sensor
+      depth_kp: 10.5
+      depth_ki: 0.0
+      depth_kd: 0.0
+      depth_min_output: -10.0 # minimum fin angle from center (-25.0 from advice from NSWC PCD)
+      depth_max_output: 10.0 # maximum fin angle from center (25.0 from advice from NSWC PCD)
+      pitch_kp: 0.40
+      pitch_ki: 0.0
+      pitch_kd: 0.0
+      pitch_min_output: -40.0 # minimum fin angle from center (-25.0 from advice from NSWC PCD)
+      pitch_max_output: 40.0 # maximum fin angle from center (25.0 from advice from NSWC PCD)
+      heading_kp: 0.0
+      heading_ki: 0.0
+      heading_kd: 0.0
+      heading_min_output: -25.0 # minimum fin angle from center (-25.0 from advice from NSWC PCD)
+      heading_max_output: 25.0 # maximum fin angle from center (25.0 from advice from NSWC PCD)
+      wn_d_z: 0.16    #LP filter desired natural frequency for depth
+      wn_d_theta: 0.15    #LP filter desired natural frequency for pitch
+      outer_loop_threshold: 2.5
+      saturation_offset: 1.7
+      depth_from_bottom: false
+      surge_threshold: -1.0
+
+  coug_kinematics:
+    ros__parameters:
+      trim_ratio: 0.0 # multiplied by the velocity
+      top_fin_offset: -30.0 # offset in degrees for the top fin (from front of vehicle)
+      right_fin_offset: 15.0 # offset starboard side in degrees (from front of vehicle)
+      left_fin_offset: 32.0 # offset port side in degrees for the left fin (from front of vehicle)
+      # demo_mode: false # if true, disables the thruster
+
+  depth_convertor:
+    ros__parameters:
+      fluid_pressure_atm: 86396.5  # 87250.0 from testing, TODO: add units
+
+  gpsd_client:
+    ros__parameters:
+      use_gps_time: false
+      check_fix_by_variance: false
+      frame_id: gps
+      publish_rate: 10
+
+  gps_odom:
+    ros__parameters:
+      origin.latitude: 40.238833 # 40.2735 for Utah Lake
+      origin.longitude: -111.742249 # -111.7126 for Utah Lake
+      origin.altitude: 1367.00 # from testing
+
+  modem_ros_node:
+    ros__parameters:
+      seatrac_serial_port: "/dev/frost/rs232_connector_seatrac"
+      logging_verbosity: 1
+
+  manual_mission:
+    ros__parameters:
+      command_timer_period: 0.5 # in seconds
+      state_1_count: 35 # time spent in state 1 (in intervals based on command_timer_period)
+      state_1_depth: 0.8 # in meters (positive is deeper)
+      state_1_heading: 0.0 # in degrees
+      state_1_speed: 35.0 # TODO: add here
+      state_2_count: 180 # time spent in state 2 (in intervals based on command_timer_period)
+      state_2_depth: 0.0 # in meters (positive is deeper)
+      state_2_heading: 0.0 # in degrees
+      state_2_speed: 0.0 # TODO: add here
+      state_3_count: 180 # time spent in state 3 (in intervals based on command_timer_period)
+      state_3_depth: 0.0 # in meters (positive is deeper)
+      state_3_heading: 0.0 # in degrees
+      state_3_speed: 0.0 # TODO: add here
+
+
+  fins_manual:
+    ros__parameters:
+      # command_timer_period: 0.5 # in seconds
+      # commands: "[7, 35, 35, 35, 0], [6, -35, -35, -35, 12], [7, 35, 35, 35, 0]"
+      ###### SYSTEM ID TEST
+      # command_timer_period: 0.1
+      # commands: "[20, 0, 0, 0, 0],[10, 0, 0, 0, 20], [5, 0, 0, 0, 0], [10, 0, 0, 0,
+      #   10], [20, 35, 0, 0, 10], [5, 0, 0, 0, 10], [20, 0, 35, 35, 10], [20, 0, -35,
+      #   -35, 10], [5, 0, 0, 0, 10], [20, 35, -35, 35, 10], [5, 0, 0, 0, 0]"
+      ###### Straight Test
+      # command_timer_period: 10
+      # commands: "[20, 0, 0, 0, 0],[100, 0, 0, 0, 40]"
+      ###### SYSTEM ID TEST
+      command_timer_period: 0.1
+      commands: "[100, 0, 0, 0, 0],[20, 0, 0, 0, 60], [5, 0, 0, 0, 0], [10, 0, 0,
+        0, 25], [30, 20, 0, 0, 25], [5, 0, 0, 0, 25], [30, 0, 20, -20, 25], [30, 0,
+        -20, 20, 25], [5, 0, 0, 0, 25], [40, 20, -20, -20, 25], [20, 0, 0, 0, 0],
+        [10, 0, 0, 0, -20]"
+      ####### IN LAB EXAGERRATED TEST
+      # command_timer_period: 1.0
+      # commands: "[10, 0, 0, 0, 0],[10, 0, 0, 0, 100], [5, 0, 0, 0, 0], [10, 0, 0, 0, 50], [20, 25, 0, 0, 50], [5, 0, 0, 0, 50], [20, 0, 35, 35, 50], [20, 0, -35, -35, 50], [5, 0, 0, 0, 50], [20, 35, -35, 35, 50], [5, 0, 0, 0, 0]"
+

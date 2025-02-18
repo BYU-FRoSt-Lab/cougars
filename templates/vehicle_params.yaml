@@ -62,6 +62,10 @@ coug0: # Change this to match the vehicle name
       origin.longitude: -111.742249 # -111.7126 for Utah Lake
       origin.altitude: 1367.00 # from testing
 
+  modem_ros_node:
+    ros__parameters:
+      logging_verbosity: 1
+
   manual_mission:
     ros__parameters:
       command_timer_period: 0.5 # in seconds

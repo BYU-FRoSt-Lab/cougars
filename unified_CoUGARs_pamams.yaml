@@ -60,11 +60,11 @@ base_station:
 #                 Coug 1 Ros Parameters                     #
 #############################################################
 
-coug1: # Change this to match the vehicle name
+coug1: 
+  ros__parameters:
+    vehicle_ID: 1
 
-  /**:
-    ros__parameters:
-      vehicle_ID: 1
+coug1:
 
   battery_sub:
     ros__parameters:
@@ -172,10 +172,10 @@ coug1: # Change this to match the vehicle name
 #############################################################
 
 coug2:
+  ros__parameters:
+    vehicle_ID: 2
 
-  /**:
-    ros__parameters:
-      vehicle_ID: 2
+coug2:
 
   battery_sub:
     ros__parameters:
@@ -234,7 +234,7 @@ coug2:
   modem:
     ros__parameters:
       seatrac_serial_port: "/dev/frost/rs232_connector_seatrac"
-      logging_verbosity: 1
+      logging_verbosity: 3
 
   manual_mission:
     ros__parameters:
@@ -291,10 +291,10 @@ coug2:
 # WARINING: Only use for setting up new cougs
 
 coug_temp_namespace: # Change this to match the vehicle name
+  ros__parameters:
+    vehicle_ID: -1
 
-  /**:
-    ros__parameters:
-      vehicle_ID: -1
+coug_temp_namespace:
 
   battery_sub:
     ros__parameters:

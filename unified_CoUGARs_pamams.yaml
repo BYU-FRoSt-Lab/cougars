@@ -164,7 +164,10 @@ coug1:
       # command_timer_period: 1.0
       # commands: "[10, 0, 0, 0, 0],[10, 0, 0, 0, 100], [5, 0, 0, 0, 0], [10, 0, 0, 0, 50], [20, 35, 0, 0, 50], [5, 0, 0, 0, 50], [20, 0, 35, 35, 50], [20, 0, -35, -35, 50], [5, 0, 0, 0, 50], [20, 35, -35, 35, 50], [5, 0, 0, 0, 0]"
 
-
+  static_tf_publisher:
+    ros__parameters:
+      modem.robot_orientation.translation: [0.0, 0.0, 0.0]
+      modem.robot_orientation.orientation: [0.0, 0.0, 0.0, 1.0]
 
 
 #############################################################
@@ -275,7 +278,10 @@ coug2:
       # command_timer_period: 1.0
       # commands: "[10, 0, 0, 0, 0],[10, 0, 0, 0, 100], [5, 0, 0, 0, 0], [10, 0, 0, 0, 50], [20, 25, 0, 0, 50], [5, 0, 0, 0, 50], [20, 0, 35, 35, 50], [20, 0, -35, -35, 50], [5, 0, 0, 0, 50], [20, 35, -35, 35, 50], [5, 0, 0, 0, 0]"
 
-
+  static_tf_publisher:
+    ros__parameters:
+      modem.robot_orientation.translation: [0.0, 0.0, 0.0]
+      modem.robot_orientation.orientation: [0.0, 0.0, 0.0, 1.0]
 
 
 #############################################################
@@ -366,6 +372,11 @@ coug_temp_namespace:
       state_3_depth: 0.0 # in meters (positive is deeper)
       state_3_heading: 0.0 # in degrees
       state_3_speed: 0.0 # TODO: add here
+
+  static_tf_publisher:
+    ros__parameters:
+      modem.robot_orientation.translation: [0.0, 0.0, 0.0]
+      modem.robot_orientation.orientation: [0.0, 0.0, 0.0, 1.0]
 
 
 

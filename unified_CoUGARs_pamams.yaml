@@ -292,6 +292,80 @@ coug2:
 
 
 #############################################################
+#               Coug Simulation Parameters                  #
+#############################################################
+
+coug0:
+
+  battery_sub:
+    ros__parameters:
+      critical_voltage: 14.0 # shutdown voltage in volts (safety check)
+
+  coug_controls:
+    ros__parameters:
+      pid_timer_period: 80 # in ms, 80 from experimentation with the depth sensor
+      depth_kp: 0.0
+      depth_ki: 0.0
+      depth_kd: 0.0
+      depth_min_output: -25.0 # minimum fin angle from center (-25.0 from advice from NSWC PCD)
+      depth_max_output: 25.0 # maximum fin angle from center (25.0 from advice from NSWC PCD)
+      pitch_kp: 0.0
+      pitch_ki: 0.0
+      pitch_kd: 0.0
+      pitch_min_output: -25.0 # minimum fin angle from center (-25.0 from advice from NSWC PCD)
+      pitch_max_output: 25.0 # maximum fin angle from center (25.0 from advice from NSWC PCD)
+      heading_kp: 0.0
+      heading_ki: 0.0
+      heading_kd: 0.0
+      heading_min_output: -25.0 # minimum fin angle from center (-25.0 from advice from NSWC PCD)
+      heading_max_output: 25.0 # maximum fin angle from center (25.0 from advice from NSWC PCD)
+      theta_max: 25.0 # maximum dive angle in degrees
+      look_ahead: 5.0 # distance in meters to look ahead (for depth control)
+
+  coug_kinematics:
+    ros__parameters:
+      trim_ratio: 0.0 # multiplied by the velocity
+      top_fin_offset: 0.0 # offset in degrees for the top fin (from front of vehicle)
+      right_fin_offset: 0.0 # offset in degrees for the right fin (from front of vehicle)
+      left_fin_offset: 0.0 # offset in degrees for the left fin (from front of vehicle)
+      demo_mode: false # if true, disables the thruster
+
+  depth_convertor:
+    ros__parameters:
+      fluid_pressure_atm: 87250.0 # 87250.0 from testing, TODO: add units
+
+  gpsd_client:
+    ros__parameters:
+      use_gps_time: false
+      check_fix_by_variance: false
+      frame_id: gps
+      publish_rate: 10
+
+  # gps_odom:
+  #   ros__parameters:
+  #     origin.latitude: 40.238833 # 40.2735 for Utah Lake
+  #     origin.longitude: -111.742249 # -111.7126 for Utah Lake
+  #     origin.altitude: 1367.00 # from testing
+
+  manual_mission:
+    ros__parameters:
+      command_timer_period: 0.5 # in seconds
+      state_1_count: 0 # time spent in state 1 (in intervals based on command_timer_period)
+      state_1_depth: 0.0 # in meters (positive is deeper)
+      state_1_heading: 0.0 # in degrees
+      state_1_speed: 0.0 # TODO: add here
+      state_2_count: 0 # time spent in state 2 (in intervals based on command_timer_period)
+      state_2_depth: 0.0 # in meters (positive is deeper)
+      state_2_heading: 0.0 # in degrees
+      state_2_speed: 0.0 # TODO: add here
+      state_3_count: 0 # time spent in state 3 (in intervals based on command_timer_period)
+      state_3_depth: 0.0 # in meters (positive is deeper)
+      state_3_heading: 0.0 # in degrees
+      state_3_speed: 0.0 # TODO: add here
+
+
+
+#############################################################
 #                 Coug default Parameters                   #
 #############################################################
 # WARINING: Only use for setting up new cougs

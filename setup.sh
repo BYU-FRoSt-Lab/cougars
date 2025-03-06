@@ -66,6 +66,7 @@ else
     mkdir bag
 fi
 
+# TODO: update config setup
 # Set up config directory
 if [ -d "config" ]; then
     printWarning "The config directory already exists -- skipping copying templates"

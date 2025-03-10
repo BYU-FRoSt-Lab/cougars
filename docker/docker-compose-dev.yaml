@@ -23,6 +23,7 @@ services:
       - ../cougars-teensy:/home/frostlab/teensy_ws
       - ../cougars-gpio:/home/frostlab/gpio
       - ../cougars-docs:/home/frostlab/docs
+      - ../cougars-base-station:/home/frostlab/base-station:rw
       - /dev:/dev:rw
       - /etc/localtime:/etc/localtime:ro # Syncs the container's time with the host
       - /tmp/.X11-unix:/tmp/.X11-unix # Required for GUI applications

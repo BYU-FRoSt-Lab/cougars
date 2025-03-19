@@ -7,7 +7,7 @@
 
 
 #############################################################
-#                   Universal Parameters                    #
+#                    Mission Parameters                     #
 #############################################################
 
 /**:
@@ -37,7 +37,7 @@ base_station:
   base_station_coms:
     ros__parameters:
       # The vehicle ids of the CougUVs running the current mission.
-      vehicles_in_mission: [2, 3, 4]
+      vehicles_in_mission: [1, 2, 3]
 
       # If true, the base station will request a status update form each vehicle during a mission
       request_status: True
@@ -57,7 +57,7 @@ base_station:
 
 
 #############################################################
-#                 Coug 1 Ros Parameters                     #
+#                   Coug 1 Ros Parameters                   #
 #############################################################
 
 coug1: 
@@ -370,10 +370,6 @@ coug0:
 #############################################################
 # WARINING: Only use for setting up new cougs
 
-coug_temp_namespace: # Change this to match the vehicle name
-  ros__parameters:
-    vehicle_ID: -1
-
 coug_temp_namespace:
 
   battery_sub:
@@ -428,6 +424,7 @@ coug_temp_namespace:
 
   modem:
     ros__parameters:
+      vehicle_ID: -1
       seatrac_serial_port: "/dev/frost/rs232_connector_seatrac"
       logging_verbosity: 1
 

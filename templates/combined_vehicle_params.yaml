@@ -166,8 +166,14 @@ coug1:
 
   static_tf_publisher:
     ros__parameters:
-      modem.robot_orientation.translation: [0.0, 0.0, 0.0]
-      modem.robot_orientation.orientation: [0.0, 0.0, 0.0, 1.0]
+      base_link.modem_link.translation: [0.0, 0.0, 0.0]
+      base_link.modem_link.orientation: [0.0, 0.0, 0.0, 1.0] # = no rotation
+
+      base_link.dvl_link.translation: [0.0, 0.0, 0.0]
+      base_link.dvl_link.orientation: [1.0, 0.0, 0.0, 0.0] # = 180 deg rotation about the X axis
+
+      base_link.gps_link.translation: [0.0, 0.0, 0.0]
+      base_link.gps_link.orientation: [0.0, 0.0, 0.0, 1.0] # = no rotation
 
 
 #############################################################

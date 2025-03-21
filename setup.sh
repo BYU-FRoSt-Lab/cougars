@@ -20,6 +20,26 @@ function printError {
 
 printWarning "This script should be run from the root of the CoUGARS directory"
 
+
+# Ask user for clone method choice: HTTPS or SSH
+echo "Choose cloning method for repositories:"
+echo "1) SSH"
+echo "2) HTTPS"
+read -p "Enter the number of your choice [1 or 2]: " clone_method
+
+if [ "$clone_method" -eq 1 ]; then
+    CLONE_PREFIX="git@github.com:BYU-FRoSt-Lab"
+    printInfo "Cloning using SSH"
+elif [ "$clone_method" -eq 2 ]; then
+    CLONE_PREFIX="https://github.com/BYU-FRoSt-Lab"
+    printInfo "Cloning using HTTPS"
+else
+    printError "Invalid choice. Defaulting to SSH."
+    CLONE_PREFIX="git@github.com:BYU-FRoSt-Lab"
+fi
+
+
+
 if [ "$(uname -m)" == "aarch64" ]; then
 
   ### START RT-SPECIFIC SETUP ###
@@ -79,7 +99,7 @@ fi
 if [ -f ~/.tmux.conf ]; then
     printWarning "The tmux config symlink already exists"
 else
-  sudo ln -s /home/frostlab/CoUGARs/config/local/.tmux.conf ~/.tmux.conf
+  sudo ln -s /home/frostlab/cougars/config/local/.tmux.conf ~/.tmux.conf
   tmux source-file ~/.tmux.conf
 fi
 
@@ -91,16 +111,16 @@ if [ "$(uname -m)" == "aarch64" ]; then
   if [ -f /etc/chrony/chrony.conf ]; then
       printWarning "The chrony config symlink already exists"
   else
-      sudo ln -s $HOME/CoUGARs/config/local/chrony.conf /etc/chrony/chrony.conf
+      sudo ln -s $HOME/cougars/config/local/chrony.conf /etc/chrony/chrony.conf
   fi
 
   # Set up udev rules
   if [ -f /etc/udev/rules.d/00-teensy.rules ]; then
       printWarning "The udev rules symlink already exists"
   else
-      sudo ln -s $HOME/CoUGARs/config/local/00-teensy.rules /etc/udev/rules.d/00-teensy.rules
-      sudo ln -s $HOME/CoUGARs/config/local/99-teensy.rules /etc/udev/rules.d/99-teensy.rules
-      sudo ln -s $HOME/CoUGARs/config/local/99-seatrac.rules /etc/udev/rules.d/99-seatrac.rules
+      sudo ln -s $HOME/cougars/config/local/00-teensy.rules /etc/udev/rules.d/00-teensy.rules
+      sudo ln -s $HOME/cougars/config/local/99-teensy.rules /etc/udev/rules.d/99-teensy.rules
+      sudo ln -s $HOME/cougars/config/local/99-seatrac.rules /etc/udev/rules.d/99-seatrac.rules
       sudo udevadm control --reload-rules
       sudo udevadm trigger
   fi
@@ -112,16 +132,16 @@ else
   ### START DEV-SPECIFIC SETUP ###
 
   # TODO: Maybe not needed if we do all the work in the Docker image?
-  # Get the CoUGARs workspace location on the development machine
+  # Get the cougars workspace location on the development machine
   current_dir=$(pwd)
   source_file=$current_dir/config/bash_vars.sh
 
   # Attempt to add the current workspace directory to the source file
   if ! grep -q "COUG_WORKSPACE_DIR" $source_file; then
     echo "export COUG_WORKSPACE_DIR=$current_dir" >> $source_file
-    printInfo "Saved the CoUGARs workspace path to $source_file"
+    printInfo "Saved the cougars workspace path to $source_file"
   else
-    printWarning "The CoUGARs workspace path already exists in $source_file"
+    printWarning "The cougars workspace path already exists in $source_file"
   fi
 
   # Attempt to add the source file to the local user's .bashrc
@@ -133,8 +153,8 @@ else
   fi
 
   # Copy repos from GitHub
-  git clone https://github.com/BYU-FRoSt-Lab/cougars-docs.git
-  git clone https://github.com/BYU-FRoSt-Lab/cougars-base-station.git
+  git clone $CLONE_PREFIX/cougars-docs.git
+  git clone $CLONE_PREFIX/cougars-base-station.git
 
   ### END DEV-SPECIFIC SETUP ###
 
@@ -144,8 +164,9 @@ fi
 unset LC_ALL
 
 # Copy repos from GitHub
-git clone https://github.com/BYU-FRoSt-Lab/cougars-ros2.git
-git clone https://github.com/BYU-FRoSt-Lab/cougars-teensy.git
-git clone https://github.com/BYU-FRoSt-Lab/cougars-gpio.git
+git clone $CLONE_PREFIX/cougars-ros2.git
+git clone $CLONE_PREFIX/cougars-teensy.git
+git clone $CLONE_PREFIX/cougars-gpio.git
+git clone $CLONE_PREFIX/moos-ivp-extend.git
 
 printInfo "Make sure to update the vehicle-specific configuration files in "config" now"

@@ -34,8 +34,12 @@ coug0: # Change this to match the vehicle name
       heading_kd: 0.0
       heading_min_output: -25.0 # minimum fin angle from center (-25.0 from advice from NSWC PCD)
       heading_max_output: 25.0 # maximum fin angle from center (25.0 from advice from NSWC PCD)
-      theta_max: 25.0 # maximum dive angle in degrees
-      look_ahead: 5.0 # distance in meters to look ahead (for depth control)
+      wn_d_z: 0.09    #LP filter desired natural frequency for depth
+      wn_d_theta: 0.25    #LP filter desired natural frequency for pitch
+      outer_loop_threshold: 2.5  # Depth offset when controller will only run inner loop
+      saturation_offset: 1.7    # LP filter override when controller starts outer loop
+      depth_from_bottom: false   # Controller to run depth from bottom mission
+      surge_threshold: -1.0     #X velocity required vefore controller will initiate dive.
 
   coug_kinematics:
     ros__parameters:
@@ -77,3 +81,8 @@ coug0: # Change this to match the vehicle name
       state_3_depth: 0.0 # in meters (positive is deeper)
       state_3_heading: 0.0 # in degrees
       state_3_speed: 0.0 # TODO: add here
+
+  fins_manual:
+    ros__parameters:
+      command_timer_period: 0.5 # in seconds
+      commands: "[10, 15, 15, 15, 0], [10, -15, -15, -15, 0], [10, 25, 25, 25, 0]"

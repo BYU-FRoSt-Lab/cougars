@@ -23,6 +23,7 @@ services:
       - ../cougars-teensy:/home/frostlab/teensy_ws
       - ../cougars-gpio:/home/frostlab/gpio
       - ../cougars-docs:/home/frostlab/docs
+      - ../cougars-base-station:/home/frostlab/base-station:rw
       - ../moos-ivp-extend:/home/frostlab/moos-ivp-extend
       - ../entrypoint.sh:/home/frostlab/entrypoint.sh
       - /dev:/dev:rw

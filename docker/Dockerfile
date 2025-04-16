@@ -185,7 +185,8 @@ RUN apt update && apt install -y \
     netcat-openbsd \
     rsync \
     libserialport-dev \ 
-    gpsd-clients
+    gpsd-clients \
+    tmux
 USER ${LABNAME}
 
 # Install Python dependencies
@@ -194,7 +195,8 @@ RUN pip3 install numpy==1.24.0 \
     matplotlib \
     pyproj \
     pymavlink \
-    ruamel.yaml
+    ruamel.yaml \ 
+    tmuxp
 
 RUN echo "export PATH=$PATH:/home/${LABNAME}/.local/bin:/home/${LABNAME}/moos-ivp/bin" >> /home/${LABNAME}/.bashrc
 

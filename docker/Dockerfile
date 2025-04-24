@@ -196,7 +196,8 @@ RUN pip3 install numpy==1.24.0 \
     pyproj \
     pymavlink \
     ruamel.yaml \ 
-    tmuxp
+    tmuxp \
+    pyserial 
 
 RUN echo "export PATH=$PATH:/home/${LABNAME}/.local/bin:/home/${LABNAME}/moos-ivp/bin" >> /home/${LABNAME}/.bashrc
 

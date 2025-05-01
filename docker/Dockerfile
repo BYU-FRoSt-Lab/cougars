@@ -186,7 +186,8 @@ RUN apt update && apt install -y \
     rsync \
     libserialport-dev \ 
     gpsd-clients \
-    tmux
+    tmux \
+    libxcb-cursor0
 USER ${LABNAME}
 
 # Install Python dependencies
@@ -196,7 +197,9 @@ RUN pip3 install numpy==1.24.0 \
     pyproj \
     pymavlink \
     ruamel.yaml \ 
-    tmuxp
+    tmuxp \
+    PyQt6 \
+    graphviz
 
 RUN echo "export PATH=$PATH:/home/${LABNAME}/.local/bin:/home/${LABNAME}/moos-ivp/bin" >> /home/${LABNAME}/.bashrc
 

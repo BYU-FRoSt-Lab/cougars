@@ -176,6 +176,7 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
 USER root
 RUN apt update && apt install -y \
     vim \
+    nano \
     psmisc \
     network-manager \
     systemd \

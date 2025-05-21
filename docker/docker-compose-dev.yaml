@@ -6,7 +6,7 @@
 
 services:
   cougars:
-    image: frostlab/cougars:latest
+    image: frostlab/cougars:mapviz
     build: .
     platform: linux/amd64
     container_name: cougars

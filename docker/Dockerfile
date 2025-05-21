@@ -145,10 +145,19 @@ RUN ./build-moos.sh
 RUN ./build-ivp.sh
 WORKDIR /home/${LABNAME}
 
+# Install Mapviz
+USER root
+RUN apt install -y \
+    ros-humble-mapviz \
+    ros-humble-mapviz-plugins \
+    ros-humble-tile-map \
+    ros-humble-multires-image
+
 # Install development dependencies (rqt, plotjuggler, documentation, etc.)
 USER root
+RUN apt update -y
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
-    apt update && apt install -y \
+    apt update && apt install -y --no-install-recommends \
     libx11-dev \
     libxext-dev \
     libxrender-dev \
@@ -159,7 +168,7 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     gir1.2-gtk-3.0 \
     x11-apps \
     ros-humble-rqt* \
-    ros-humble-plotjuggler-ros \
+    # ros-humble-plotjuggler-ros \
     ros-humble-rviz2 \
     python3-rosdoc2 \
     && apt clean \
@@ -196,7 +205,8 @@ RUN pip3 install numpy==1.24.0 \
     pyproj \
     pymavlink \
     ruamel.yaml \ 
-    tmuxp
+    tmuxp \
+    digi-xbee
 
 RUN echo "export PATH=$PATH:/home/${LABNAME}/.local/bin:/home/${LABNAME}/moos-ivp/bin" >> /home/${LABNAME}/.bashrc
 

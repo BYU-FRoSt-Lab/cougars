@@ -79,19 +79,6 @@ USER ${LABNAME}
 
 RUN rm Eigen.zip
 
-# Install tty0tty (virtual serial port)
-# USER ${LABNAME}
-# RUN git clone https://github.com/freemed/tty0tty
-# RUN cd tty0tty/module
-# RUN make
-# USER root
-# RUN make modules_install
-# RUN usermod -aG dialout ${LABNAME}
-# RUN udevadm control --reload-rules
-# RUN depmod
-# RUN modprobe tty0tty
-# RUN echo "tty0tty" >> /etc/modules
-
 # Install PlatformIO
 USER root
 RUN apt install -y python3-venv

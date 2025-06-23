@@ -146,6 +146,7 @@ RUN ./build-ivp.sh
 WORKDIR /home/${LABNAME}
 
 # Install development dependencies (rqt, plotjuggler, documentation, etc.)
+# Note: microstrain-inertial-driver is only for the bluerov vehicle
 USER root
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
     apt update && apt install -y \
@@ -160,6 +161,7 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     x11-apps \
     ros-humble-rqt* \
     ros-humble-rviz2 \
+    ros-humble-microstrain-inertial-driver \   
     python3-rosdoc2 \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*; \

@@ -1,2 +1,6 @@
 # Rule for the first Teensy board
 SUBSYSTEM=="tty", ATTRS{serial}=="15569400", SYMLINK+="frost/teensy"
+
+# Allows GPIO chip to be used in docker container
+# Change the gpiochip to match the chip used for the teensy toogle
+KERNEL=="gpiochip0", MODE="0666"

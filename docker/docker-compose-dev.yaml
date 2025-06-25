@@ -25,13 +25,14 @@ services:
       - ../cougars-docs:/home/frostlab/docs
       - ../cougars-base-station:/home/frostlab/base_station
       - ../moos-ivp-extend:/home/frostlab/moos-ivp-extend
-      - ../entrypoint.sh:/home/frostlab/entrypoint.sh
+      - ./startup:/home/frostlab/startup
+      - ../.ssh_keys:/home/frostlab/.ssh     # Syncs ssh keys for the vehicles to save and speed up the process
       - /dev:/dev:rw
       - /etc/localtime:/etc/localtime:ro # Syncs the container's time with the host
       - /tmp/.X11-unix:/tmp/.X11-unix # Required for GUI applications
       - /dev/shm:/dev/shm
     command: /bin/bash
-    entrypoint: /home/frostlab/entrypoint.sh
+    entrypoint: /home/frostlab/startup/entrypoint.sh
     stdin_open: true  # Equivalent to -it in docker run
     tty: true  # Equivalent to -it in docker run
     restart: always  # Optional: Keeps the container running after exit unless you want it to be removed like with --rm

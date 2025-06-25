@@ -1,6 +1,6 @@
 **/.vscode
 bag
-config
+config/*
 cougars-ros2
 cougars-teensy
 cougars-gpio
@@ -9,3 +9,9 @@ cougars-base-station
 cougars_base_station
 moos-ivp-extend
 cougars_sim_converters
+!config/cougarsrc.sh
+!config/coug*params.yaml
+!config/fleet_params.yaml
+config/deploy_tmp
+.ssh_keys
+!.ssh_keys/README.md

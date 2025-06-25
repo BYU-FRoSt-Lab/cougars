@@ -181,7 +181,7 @@ RUN apt update && apt install -y \
     systemd \
     libgps-dev \
     python3-libgpiod \
-    ros-humble-rosbag2-storage-mcap \
+    # ros-humble-rosbag2-storage-mcap \
     netcat-openbsd \
     rsync \
     libserialport-dev \ 
@@ -206,4 +206,10 @@ RUN apt update && apt upgrade -y
 USER ${LABNAME}
 
 # Set up bash variable sourcing (Make sure this exists as a volume when you run the container!)
-RUN echo "source /home/${LABNAME}/config/bash_vars.sh" >> ~/.bashrc
+RUN echo "source /home/${LABNAME}/config/cougarsrc.sh" >> ~/.bashrc
+RUN echo "export RCUTILS_COLORIZED_OUTPUT=1" >> ~/.bashrc
+RUN touch ~/.hushlogin
+
+# Create the .ssh folder with correct permissions (700) frostlab as owner and
+RUN mkdir -p /home/${LABNAME}/.ssh && \
+    chmod 700 /home/${LABNAME}/.ssh

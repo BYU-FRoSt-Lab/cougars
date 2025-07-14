@@ -31,7 +31,8 @@ RUN pip3 install --no-cache-dir \
     PyQt6 \
     graphviz \
     transforms3d \
-    tkintermapview
+    tkintermapview \
+    mapviz
 
 
 USER ${LABNAME}

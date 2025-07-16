@@ -22,6 +22,7 @@ RUN apt update && apt install -y \
     ros-$ROS_DISTRO-mapviz-plugins \
     ros-$ROS_DISTRO-tile-map \
     ros-$ROS_DISTRO-multires-image \
+    sl \
     && apt update && apt upgrade -y && apt clean \
     && rm -rf /var/lib/apt/lists/*
     

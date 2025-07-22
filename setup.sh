@@ -145,3 +145,4 @@ printInfo "Make sure to update the vehicle-specific configuration files in "conf
 
 # TODO add the prompt to ask if the user wants to do this
 sudo chmod a+w -R cougars-ros2 cougars-teensy cougars-gpio
+sudo chmod a+w -R bag

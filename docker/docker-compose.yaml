@@ -21,6 +21,7 @@ services:
       - /dev:/dev
       - ../cougars-ros2:/home/ue4/coug_ros2
       - ../cougars-base-station/sim/holo-translator:/home/ue4/sim_ws/src/holo-translator
+      - ../cougars-base-station/sim/config:/home/ue4/config
     command: ["tail", "-f", "/dev/null"]
     restart: always  # Optional: Keeps the container running after exit unless you want it to be removed like with --rm
 

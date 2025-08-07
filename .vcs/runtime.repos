@@ -1,0 +1,13 @@
+repositories:
+  cougars-teensy:
+    type: git
+    url: git@github.com:BYU-FRoSt-Lab/cougars-teensy.git
+    version: main
+
+  cougars-gpio:
+    type: git
+    url: git@github.com:BYU-FRoSt-Lab/cougars-gpio.git
+    version: main
+
+  
+

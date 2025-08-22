@@ -1,0 +1,10 @@
+repositories:
+  cougars-base-station:
+    type: git
+    url: git@github.com:BYU-FRoSt-Lab/cougars-base-station.git
+    version: base-station-cleanup
+
+  cougars-docs:
+    type: git
+    url: git@github.com:BYU-FRoSt-Lab/cougars-docs.git
+    version: main

@@ -15,3 +15,4 @@ cougars_sim_converters
 config/deploy_tmp
 .ssh_keys
 !.ssh_keys/README.md
+ros2_ws

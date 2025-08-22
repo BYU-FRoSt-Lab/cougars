@@ -49,21 +49,26 @@ RUN pip3 install numpy==1.24.0 \
     pybind11_stubgen
 
 
-# INSTALL GTSAM
-WORKDIR /home/${LABNAME}/
-RUN git clone --depth 1 https://github.com/borglab/gtsam.git && \
-    mkdir /home/${LABNAME}/gtsam/build && \
-    wget -O Eigen.zip https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip && \
-    unzip Eigen.zip \
+# Install Eigen system-wide
+RUN wget -O Eigen.zip https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip \
+    && unzip Eigen.zip \
     && mv eigen-3.4.0/Eigen /usr/local/include \
     && rm -rf eigen-3.4.0 Eigen.zip
+    
+# INSTALL GTSAM
+USER ${LABNAME}
+WORKDIR /home/${LABNAME}/
+RUN git clone --depth 1 https://github.com/borglab/gtsam.git && \
+    mkdir /home/${LABNAME}/gtsam/build 
+    
 
 WORKDIR /home/${LABNAME}/gtsam/build
 RUN cmake .. -DGTSAM_BUILD_PYTHON=ON -DGTSAM_PYTHON_VERSION=3.10.12 \
     && make -j"$(nproc)" python-install
 
-
-
+    
+    
+USER root
 WORKDIR /home/${LABNAME}
 # Install PlatformIO
 RUN curl -fsSL -o get-platformio.py https://raw.githubusercontent.com/platformio/platformio-core-installer/master/get-platformio.py \

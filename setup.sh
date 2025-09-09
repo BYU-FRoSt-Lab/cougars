@@ -80,7 +80,7 @@ fi
 
 if [[ "$install_vcstool" == "y" || "$install_vcstool" == "Y" ]]; then
     printInfo "Installing vcstool"
-    sudo apt install vcstool
+    sudo pip install -U vcstool
 else
     printWarning "Skipping installation of vcstool. Repo imports may fail."
 fi

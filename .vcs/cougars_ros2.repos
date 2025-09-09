@@ -2,7 +2,7 @@ repositories:
   cougars_main:
     type: git
     url: git@github.com:BYU-FRoSt-Lab/cougars-ros2.git
-    version: cougars-cleanup
+    version: main
 
   seatrac:
     type: git

@@ -1,0 +1,9 @@
+repositories:
+  teensy_ws:
+    type: git
+    url: git@github.com:BYU-FRoSt-Lab/cougars-teensy.git
+    version: main
+
+
+  
+

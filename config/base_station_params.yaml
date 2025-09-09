@@ -1,0 +1,75 @@
+
+
+/**:
+  ros__parameters:
+    mission_start_time: 1739302061
+    vehicles_in_mission: [0]
+    # DO WE WANT TO CHANGE THIS INSTEAD OF THE SELECTION WINDOW?
+    
+/base_station_coms:
+  ros__parameters:
+    # The vehicle ids of the CougUVs running the current mission.
+
+
+    # If true, the base station will request a status update form each vehicle during a mission
+    request_status: True
+
+    # During a mission, the base station requests a status update from each vehicle one at
+    # a time on a schedule.  The request frequency is the number of seconds between the
+    # status request of two vehicles.
+    status_request_frequency_seconds: 2.0
+
+/base_station_modem:
+  ros__parameters:
+
+    vehicle_ID: 15
+
+    base_station_beacon_id: 15
+
+/base_station_radio:
+  ros__parameters:
+
+    vehicle_ID: 15
+    
+    debug_mode: False
+
+    ping_frequency: 1
+
+    xbee_port: /dev/frost/xbee_radio
+    xbee_baud: 9600
+
+
+
+
+/modem:
+  ros__parameters:
+    vehicle_ID: 15
+
+    logging_verbosity: 0
+    seatrac_serial_port: /dev/frost/rs232_connector_seatrac
+
+
+/mapviz:
+  ros__parameters:
+    config: /home/frostlab/config/mapvizconfig.mvc
+
+# /initialize_origin:
+#   ros__parameters:
+#     local_xy_frame: map
+#     local_xy_origin: swri
+#     # local_xy_origins: >
+#     # [
+#     #   {"name": "swri", "latitude": 40.249999, "longitude": -111.6499974, "altitude": 1387.0, "heading": 0.0},
+#     #   {"name": "back_40", "latitude": 29.447507, "longitude": -98.629367, "altitude": 1350.0, "heading": 0.0}
+#     # ]
+#     local_xy_origins:
+#     - name: swri
+#       latitude: 40.249999
+#       longitude: -111.6499974
+#       altitude: 1387.0
+#       heading: 0.0
+#     - name: back_40
+#       latitude: 29.447507
+#       longitude: -98.629367
+#       altitude: 1350.0
+#       heading: 0.0

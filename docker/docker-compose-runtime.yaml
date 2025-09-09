@@ -1,0 +1,40 @@
+services:
+  cougars:
+    image: frostlab/cougars:vehicle${VERSION:-_runtime}
+    build:
+      context: ..
+      dockerfile: ./docker/vehicle/runtime/Dockerfile
+    container_name: cougars
+    user: frostlab
+    network_mode: host
+    privileged: true
+    volumes:
+      - ../bag:/home/frostlab/bag:rw
+      - ../config:/home/frostlab/config:rw
+      - /etc/localtime:/etc/localtime:ro # Syncs the container's time with the host
+      - /dev:/dev:rw
+    entrypoint: /home/frostlab/entrypoint.sh
+    restart: always  # Optional: Keeps the container running after exit unless you want it to be removed like with --rm
+
+  cougars_base:
+    image: frostlab/cougars:base_station${VERSION:-_runtime}
+    build:
+      context: ..
+      dockerfile: ./docker/base_station/runtime/Dockerfile
+    container_name: cougars_base
+    user: frostlab
+    network_mode: host
+    privileged: true
+    environment:
+      DISPLAY: $DISPLAY # Required for GUI applications
+      MPLBACKEND: Qt5Agg # Required for GUI applications
+    volumes:
+      - ../bag:/home/frostlab/bag:rw
+      - ../config:/home/frostlab/config:rw
+      - ../.ssh_keys:/home/frostlab/.ssh     # Syncs ssh keys for the vehicles to save and speed up the process
+      - ../base_station/mission_control:/home/frostlab/base_station/mission_control
+      - /etc/localtime:/etc/localtime:ro # Syncs the container's time with the host
+      - /dev:/dev:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix # Required for GUI applications
+    entrypoint: /home/frostlab/entrypoint.sh
+    restart: always  # Optional: Keeps the container running after exit unless you want it to be removed like with --rm

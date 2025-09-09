@@ -12,9 +12,6 @@ services:
       - ../../bag:/home/frostlab/bag:rw
       - ../../config:/home/frostlab/config:rw
       - ../../cougars-ros2:/home/frostlab/ros2_ws
-      # - ../../cougars-teensy:/home/frostlab/teensy_ws
-      # - ../../cougars-gpio:/home/frostlab/gpio
-      # - ../../moos-ivp-extend:/home/frostlab/moos-ivp-extend
       - ../../oculus:/home/frostlab/oculus
       - ./entrypoint.sh:/home/frostlab/entrypoint.sh
       - /etc/localtime:/etc/localtime:ro # Syncs the container's time with the host

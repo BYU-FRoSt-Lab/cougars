@@ -31,7 +31,7 @@
                                 <metatrafficUnicastLocatorList>
                                     <locator>
                                         <udpv4>
-                                            <address>127.0.0.1</address>
+                                            <address>localhost</address>
                                             <port>11811</port>
                                         </udpv4>
                                     </locator>

@@ -1,0 +1,21 @@
+repositories:
+  cougars_main:
+    type: git
+    url: https://github.com/BYU-FRoSt-Lab/cougars-ros2.git
+    version: cougars-cleanup
+
+  seatrac:
+    type: git
+    url: https://github.com/BYU-FRoSt-Lab/seatrac-ros2.git
+    version: main
+
+  dvl_msgs:
+    type: git
+    url: https://github.com/paagutie/dvl_msgs.git
+    version: master
+
+  dvl-a50:
+    type: git
+    url: https://github.com/paagutie/dvl-a50.git
+    version: master
+

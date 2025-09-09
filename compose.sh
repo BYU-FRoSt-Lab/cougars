@@ -1,37 +1,59 @@
 #!/bin/bash
-# Created by Nelson Durrant, Sep 2024
 #
-# Pulls and runs the most recent Docker image
-# - Use 'bash compose.sh down' to stop the image
-# - Run this script after running 'setup.sh' to pull the most recent image and run it
-# - This can also be used to open a new bash terminal in an already running container
-# - Make sure you run this from the root of the top-level repo
+# Usage:
+#   bash compose.sh [-v VERSION] [down]
+#   -v VERSION : Set the version for Docker images (exported as VERSION)
+#   down       : Stop all docker images
+# Notes:
+#   - Make sure to run this from the root of the top-level repo
 
-source config/cougarsrc.sh
+echo "This script should be run from the root of the CoUGARS directory"
+source scripts/utils/print.sh
+cd docker
 
-printWarning "This script should be run from the root of the CoUGARS directory"
+# Default Compose file
+COMPOSE_FILE="docker-compose.yaml"
+
+# Parse arguments
+while getopts ":v:" opt; do
+  case $opt in
+    v)
+      export VERSION="-v${OPTARG}"
+      printInfo "Using version: $VERSION"
+      COMPOSE_FILE="docker-compose-runtime.yaml"
+      ;;
+    \?)
+      printWarning "Invalid option: -$OPTARG"
+      ;;
+  esac
+done
+
+# Remove processed options from $@
+shift $((OPTIND -1))
 
 case $1 in
   "down")
-    # Check the system architecture
-    if [ "$(uname -m)" == "aarch64" ]; then
-      printWarning "Stopping the runtime image..."
-      docker compose -f docker/docker-compose-rt.yaml down
-    else
-      printWarning "Stopping the development image..."
-      docker compose -f docker/docker-compose-dev.yaml down
-    fi
+    printWarning "Stopping all docker images"
+    docker compose -f "$COMPOSE_FILE" down
     ;;
   *)
     # Check the system architecture
     if [ "$(uname -m)" == "aarch64" ]; then
-      printInfo "Loading the runtime image..."
-      docker compose -f docker/docker-compose-rt.yaml up -d
+        printInfo "Loading the runtime image..."
+        containers=("cougars")
     else
-      printInfo "Loading the development image..."
-      docker compose -f docker/docker-compose-dev.yaml up -d
+        containers=("cougars" "cougars_base")
+        # TODO for the GPU CONTAINER
+        # # check if gpu is available
+        # if command -v nvidia-smi &> /dev/null; then
+        #     printInfo "NVIDIA GPU detected. Loading the GPU-enabled development image..."
+        #     containers=("cougars" "cougars_base" "cougars_sim")
+        # else
+        #     printInfo "No NVIDIA GPU detected. Loading the CPU-only development image..."
+        # fi
     fi
-
-    docker exec -it cougars bash
+    docker compose -f "$COMPOSE_FILE" up -d "${containers[@]}"
     ;;
 esac
+
+cd ..

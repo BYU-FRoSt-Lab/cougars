@@ -12,6 +12,3 @@ export GPIO_CHIP=/dev/gpiochip0 # ex. /dev/gpiochip0
 export STATIC_IP=0
 
 export DVL_IP_ADDRESS=192.168.194.95
-
-# Workspace directory of CoUGARS repository on a development machine
-# This should be automatically set by 'setup.sh' to the root of the CoUGARS repository if not running on a CougUV

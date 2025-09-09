@@ -1,9 +1,9 @@
 services:
   
-  holoros-sim:
+  cougars_sim:
     image: frostlab/cougars:sim-holoros-cuda12.4
-    build: ../cougars-base-station/sim/docker/runtime
-    container_name: cougars-sim-holoros
+    build: ../base_station/sim/docker/runtime
+    container_name: cougars_sim
     user: ue4
     runtime: nvidia
     network_mode: host
@@ -19,17 +19,19 @@ services:
       # - ../../sim-packages:/home/ue4/ros2_ws/src
       # - ~/.local/share/holoocean:/home/ue4/.local/share/holoocean
       - /dev:/dev
-      - ../cougars-ros2:/home/ue4/coug_ros2
-      - ../cougars-base-station/sim/holo-translator:/home/ue4/sim_ws/src/holo-translator
-      - ../cougars-base-station/sim/config:/home/ue4/sim_config
+      - ../ros2_ws:/home/ue4/coug_ros2
+      - ../base_station/sim/holo-translator:/home/ue4/sim_ws/src/holo-translator
+      - ../base_station/sim/config:/home/ue4/sim_config
       - ../config:/home/ue4/config
-    command: ["tail", "-f", "/dev/null"]
+      - ../base_station/sim/docker/runtime/entrypoint.sh:/home/ue4/entrypoint.sh
+      - ../scripts:/home/ue4/scripts
+    entrypoint: ["/bin/bash", "/home/ue4/entrypoint.sh"]
     restart: always  # Optional: Keeps the container running after exit unless you want it to be removed like with --rm
 
 
   cougars:
     image: frostlab/cougars:vehicle
-    build: ./vehicle
+    build: ./vehicle/dev
     container_name: cougars
     user: frostlab
     network_mode: host
@@ -37,19 +39,18 @@ services:
     volumes:
       - ../bag:/home/frostlab/bag:rw
       - ../config:/home/frostlab/config:rw
-      - ../cougars-ros2:/home/frostlab/ros2_ws
-      - ../cougars-teensy:/home/frostlab/teensy_ws
-      - ../cougars-gpio:/home/frostlab/gpio
-      - ../moos-ivp-extend:/home/frostlab/moos-ivp-extend
+      - ../ros2_ws:/home/frostlab/ros2_ws
+      - ../teensy_ws:/home/frostlab/teensy_ws
+      - ../scripts:/home/frostlab/scripts
       - ./vehicle/entrypoint.sh:/home/frostlab/entrypoint.sh
       - /etc/localtime:/etc/localtime:ro # Syncs the container's time with the host
       - /dev:/dev:rw
     entrypoint: /home/frostlab/entrypoint.sh
     restart: always  # Optional: Keeps the container running after exit unless you want it to be removed like with --rm
 
-  cougars-base:
+  cougars_base:
     image: frostlab/cougars:base_station
-    build: ./base_station
+    build: ./base_station/dev
     container_name: cougars_base
     user: frostlab
     network_mode: host
@@ -58,13 +59,13 @@ services:
       DISPLAY: $DISPLAY # Required for GUI applications
       MPLBACKEND: Qt5Agg # Required for GUI applications
     volumes:
+      - ../ros2_ws:/home/frostlab/ros2_ws
+      - ../base_station:/home/frostlab/base_station
+      - ../base_station/base_station_ros2:/home/frostlab/ros2_ws/src/base_station_ros2
       - ../bag:/home/frostlab/bag:rw
       - ../config:/home/frostlab/config:rw
-      - ../cougars-ros2:/home/frostlab/ros2_ws
-      - ../cougars-teensy:/home/frostlab/teensy_ws
-      - ../cougars-gpio:/home/frostlab/gpio
-      - ../moos-ivp-extend:/home/frostlab/moos-ivp-extend
-      - ../cougars-base-station:/home/frostlab/base_station
+      - ../teensy_ws:/home/frostlab/teensy_ws
+      - ../scripts:/home/frostlab/scripts
       - ../.ssh_keys:/home/frostlab/.ssh     # Syncs ssh keys for the vehicles to save and speed up the process
       - ./base_station/entrypoint.sh:/home/frostlab/entrypoint.sh
       - /etc/localtime:/etc/localtime:ro # Syncs the container's time with the host

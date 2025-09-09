@@ -1,5 +1,7 @@
 FROM frostlab/cougars:vehicle
 
+ARG LABNAME=frostlab
+ARG DEBIAN_FRONTEND=noninteractive
 # Install development dependencies (rqt, plotjuggler, documentation, etc.)
 USER root
 RUN apt update && apt install -y \

@@ -1,0 +1,105 @@
+name: Docker Develop Image Build Chain
+
+# TODO make sure it doesnt push on a PR
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+    inputs:
+      build_gtsam:
+        description: 'Build GTSAM image'
+        required: false
+        default: 'true'
+      build_vehicle:
+        description: 'Build Vehicle image'
+        required: false
+        default: 'true'
+      build_base_station:
+        description: 'Build Base Station image'
+        required: false
+        default: 'true'
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      gtsam: ${{ steps.filter.outputs.gtsam }}
+      vehicle: ${{ steps.filter.outputs.vehicle }}
+      base_station: ${{ steps.filter.outputs.base_station }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            gtsam:
+              - 'docker/gtsam/**'
+            vehicle:
+              - 'docker/vehicle/**'
+            base_station:
+              - 'docker/base_station/**'
+
+  build-gtsam:
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: ${{ (needs.detect-changes.outputs.gtsam == 'true' || github.event.inputs.build_gtsam == 'true') }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: ./docker/gtsam
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cougars:gtsam
+
+  build-vehicle:
+    runs-on: ubuntu-latest
+    needs: [detect-changes, build-gtsam]
+    if: ${{ (needs.detect-changes.outputs.vehicle == 'true' || github.event.inputs.build_vehicle == 'true') }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: ./docker/vehicle/dev
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cougars:vehicle
+
+  build-base_station:
+    runs-on: ubuntu-latest
+    needs: [detect-changes, build-vehicle]
+    if: ${{ (needs.detect-changes.outputs.base_station == 'true' || github.event.inputs.build_base_station == 'true') }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: ./docker/base_station/dev
+          platforms: linux/amd64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/cougars:base_station

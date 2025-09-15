@@ -19,4 +19,4 @@ fi
 
 echo "[INFO] Launching fastdds discovery..."
 # Run command directly — output will print to terminal
-exec fastdds discovery --server-id 0
+exec fastdds discovery --server-id $1
